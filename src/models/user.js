@@ -23,7 +23,7 @@ userSchema.plugin(passportLocalMongoose);
 const User = mongoose.model('User',userSchema);
 module.exports = User;
 
-//START OF MONGO_DB
+// //START OF MONGO_DB
 
 // const uri = "mongodb+srv://nveluru:rootpassword@cluster0.ij10k.mongodb.net/student_life_cycle?retryWrites=true";
 // mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -35,7 +35,7 @@ module.exports = User;
 //     console.log("MongoDB database connection established successfully");
 // });
 
-//END OF MONGO_DB
+// //END OF MONGO_DB
 
 // User.register({ username: 'danny', email: 'candy@candy.com' }, 'mysecretpassword');
 // User.register({ username: 'jeniffer', email: 'starbuck@starbuck.com' }, 'myCandy');

@@ -5,6 +5,17 @@ const debug = require('debug')('app');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//Start Session Management
+const expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {maxAge: 60 * 60 * 1000}
+}));
+//End Session Management
+
+const User = require('./src/models/user')
 //Start Express app server middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
@@ -15,15 +26,15 @@ app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
 //End body-parser middleware
 
-//Start Session Management
-const expressSession = require('express-session');
-app.use(expressSession({
-    secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {maxAge: 60 * 60 * 1000}
-}));
-//End Session Management
+const passport = require('passport');
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+const LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(User.authenticate()));
 
 //Start Front End
 //ADD insert Views
@@ -40,6 +51,8 @@ app.get('/', (req, res) => {
 const courseRouter = require('./src/routers/courseRouter');
 app.use('/course', courseRouter);
 // End Route Middleware 
+
+
 
 //Start LOG-IN, SIGN-UP, LOGOUT
 app.get('/signup',(req,res) => {
@@ -96,7 +109,7 @@ app.post('/login',(req,res,next) => {
                         })
                     }
                 }
-            })(req,res);
+            })(req,res,next);
         }
     }
 });
@@ -115,7 +128,7 @@ app.get('/logout',(req,res) => {
 //START OF MONGO_DB
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
-const passport = require('passport');
+
 
 const uri = "mongodb+srv://nveluru:rootpassword@cluster0.ij10k.mongodb.net/student_life_cycle?retryWrites=true";
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });

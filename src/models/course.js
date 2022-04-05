@@ -24,3 +24,4 @@ const courseSchema = new Schema({
 courseSchema.plugin(passportLocalMongoose);
 const Course = mongoose.model('Course',courseSchema,'Courses');
 module.exports = Course;
+

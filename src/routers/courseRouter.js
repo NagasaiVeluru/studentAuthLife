@@ -12,9 +12,9 @@ courseRouter.route('/').get(connectEnsureLogin.ensureLoggedIn(), (req,res) => {
 });
 
 courseRouter.route('/add').post(connectEnsureLogin.ensureLoggedIn(), (req,res) => {
-    const name = req.body.name;
-    const sem = req.body.semester;
-    const course = new Course({ name, sem });
+    //const name = req.body.name;
+    // const sem = req.body.semester;
+    const course = new Course({ name: req.body.name , semester: req.body.semester});
 
     course.save()
         .then(() => res.json('Course added!'))
