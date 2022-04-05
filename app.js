@@ -50,9 +50,13 @@ app.get('/', (req, res) => {
 // Start Route Middleware
 const courseRouter = require('./src/routers/courseRouter');
 app.use('/course', courseRouter);
+
+const authRouter = require('./src/routers/authRouter');
+app.use('/auth', authRouter);
+
+const studentGradeRouter = require('./src/routers/studentGradeRouter');
+app.use('/studentGrade', studentGradeRouter);
 // End Route Middleware 
-
-
 
 //Start LOG-IN, SIGN-UP, LOGOUT
 app.get('/signup',(req,res) => {
